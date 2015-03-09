@@ -21,8 +21,11 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.owner = current_user
 
-    @course.save
-    redirect_to @course
+    if @course.save
+      redirect_to @course
+    else
+      render 'new'
+    end
   end
 
   def update
