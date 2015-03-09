@@ -1,14 +1,16 @@
 class CoursesController < ApplicationController
-      def index
+  def index
     @courses = Course.all
   end
 
   def show
     @course = Course.find(params[:id])
+    @user = @course.users.find_by(id: current_user)
   end
 
   def new
     @course = Course.new
+    @course.owner = current_user
   end
 
   def edit
@@ -17,6 +19,7 @@ class CoursesController < ApplicationController
 
   def create
     @course = Course.new(course_params)
+    @course.owner = current_user
 
     @course.save
     redirect_to @course
@@ -39,8 +42,25 @@ class CoursesController < ApplicationController
     redirect_to courses_path
   end
 
+  def subscribe
+    @course = Course.find(params[:id])
+    @course.users << current_user
+
+    redirect_to @course
+  end
+
+  def unsubscribe
+    @course = Course.find(params[:id])
+    @user = @course.users.find(current_user)
+    if @user
+      @course.users.delete(@user)
+
+      redirect_to @course
+    end
+  end
+
   private
   def course_params
-    params.require(:course).permit(:owner, :name, :description)+
+    params.require(:course).permit(:owner, :name, :description)
   end
 end

@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(version: 20150306164440) do
 
   create_table "courses", force: :cascade do |t|
-    t.integer  "owner"
+    t.integer  "owner_id"
     t.string   "name"
     t.text     "description"
     t.datetime "created_at",  null: false

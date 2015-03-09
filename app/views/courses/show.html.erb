@@ -1,0 +1,27 @@
+<h1>Showing Course</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @course.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @course.description %>
+</p>
+
+<% @course.users.each do |course| %>
+<p><strong>Registered Users: </strong><%= course.email %></p>
+<% end %>
+
+<% if @user.nil? %>
+<p><%= link_to 'Subscribe', subscribe_course_path %></p>
+<% else %>
+<p><%= link_to 'Unsubscribe', unsubscribe_course_path %></p>
+<% end %>
+
+<p>
+  This course was created by <strong><%= @course.owner.email %></strong>
+</p>
+
+<%= link_to 'Back', courses_path %>
